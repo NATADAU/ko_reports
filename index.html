@@ -301,6 +301,19 @@ body.showing{overflow:hidden;}
 .ctl button:hover{border-color:var(--teal2);color:var(--tealD);}
 .safe-hint{position:absolute;left:0;right:0;top:0;height:var(--safe,20vh);border-bottom:2px dashed rgba(229,0,79,.5);background:rgba(229,0,79,.05);display:none;align-items:flex-end;justify-content:center;padding-bottom:1vmin;font-size:2vmin;color:var(--pink);}
 #show.calib .safe-hint{display:flex;}
+</style><style>
+.month-nav{display:flex;gap:8px;align-items:center;max-width:1040px;margin:9px auto 0;padding-bottom:9px;flex-wrap:wrap}
+.month-nav a{color:#fff;text-decoration:none;border:1px solid rgba(255,255,255,.6);padding:7px 15px;border-radius:22px;font-weight:650;font-size:14px}
+.month-nav a.selected{background:#fff;color:#017a87}
+.oct-historical{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.oct-year{padding:16px 14px;background:#fff;border:1px solid var(--brd);border-radius:12px}
+.oct-year.current{border:2px solid var(--pink)}
+.oct-year h3{font-size:1.35rem;margin-bottom:15px}
+.oct-barline{margin:12px 0}
+.oct-barline .info{display:flex;justify-content:space-between;gap:8px;align-items:center;font-size:.85rem;margin-bottom:5px}
+.oct-track{height:11px;background:#e9f0f1;border-radius:8px;overflow:hidden}
+.oct-fill{height:100%;border-radius:8px}
+@media(max-width:680px){.oct-historical{grid-template-columns:1fr}.month-nav{padding-left:12px}.s-row{gap:1vw}}
 </style>
 </head>
 <body>
@@ -319,6 +332,7 @@ body.showing{overflow:hidden;}
       <button class="show-btn" onclick="openShow(0)" title="Крупные слайды для показа в Zoom">▶ Режим показа</button>
     </div>
   </div>
+  <div class="month-nav" aria-label="Выбор месяца"><a href="./" class="selected" aria-current="page">Сентябрь</a><a href="october.html">Октябрь</a></div>
   <nav class="tabs">
     <button class="tab-btn active" data-tab="overview">Обзор</button>
     <button class="tab-btn hot" data-tab="transition">Состав сентября</button>
