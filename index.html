@@ -33,7 +33,65 @@ footer{max-width:1040px;margin:0 auto;padding:0 26px 30px;display:flex;gap:12px;
 .show-link{background:#087f89;color:#fff;border-color:#087f89}.explain{margin-top:12px;color:var(--muted);font-size:13px}
 @media(max-width:650px){main{padding:14px;gap:12px}.wrap{padding:17px 14px}section{padding:17px}.kpis{gap:9px}.label{font-size:12px}.delta{font-size:12px}.year-row{grid-template-columns:40px minmax(0,1fr) 43px;gap:7px}.stack-track{height:26px}.total{font-size:14px}footer{padding:0 14px 22px}}
 @media print{header .controls,.tools,footer{display:none}main{padding:0}section{break-inside:avoid;border:0;border-bottom:1px solid #ddd}}
-.number-table{width:100%;border-collapse:collapse;font-size:14px;font-variant-numeric:tabular-nums;margin-top:21px}.number-table caption{text-align:left;font-weight:750;font-size:16px;margin-bottom:9px}.number-table th,.number-table td{padding:12px 9px;border-bottom:1px solid #e1eae9;text-align:right}.number-table th:first-child,.number-table td:first-child{text-align:left}.number-table thead th{color:#61787b;font-size:12px;font-weight:700}.number-table tbody td:nth-child(4){font-weight:800;color:#087f89}.number-table .up{color:#188765}.number-table .down{color:#c24764}.table-wrap{overflow-x:auto}@media(max-width:650px){.number-table{font-size:12px;min-width:485px}.number-table th,.number-table td{padding:9px 6px}}</style></head><body>
+.number-table{width:100%;border-collapse:collapse;font-size:14px;font-variant-numeric:tabular-nums;margin-top:21px}.number-table caption{text-align:left;font-weight:750;font-size:16px;margin-bottom:9px}.number-table th,.number-table td{padding:12px 9px;border-bottom:1px solid #e1eae9;text-align:right}.number-table th:first-child,.number-table td:first-child{text-align:left}.number-table thead th{color:#61787b;font-size:12px;font-weight:700}.number-table tbody td:nth-child(4){font-weight:800;color:#087f89}.number-table .up{color:#188765}.number-table .down{color:#c24764}.table-wrap{overflow-x:auto}@media(max-width:650px){.number-table{font-size:12px;min-width:485px}.number-table th,.number-table td{padding:9px 6px}}
+/* Motion & responsive analytical table */
+@keyframes arrive{from{opacity:0;transform:translateY(17px)}to{opacity:1;transform:none}}
+@keyframes barGrow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes drawStroke{from{stroke-dashoffset:var(--length)}to{stroke-dashoffset:0}}
+@keyframes appearDot{from{opacity:0;transform:scale(.45)}to{opacity:1;transform:scale(1)}}
+.reveal{opacity:0;transform:translateY(17px)}
+.reveal.visible{animation:arrive .65s ease-out both;opacity:1;transform:none}
+.stack{transform-origin:left center}.visible .stack{animation:barGrow 1.05s cubic-bezier(.2,.8,.2,1) both}
+.visible .year-row:nth-child(2) .stack{animation-delay:.14s}.visible .year-row:nth-child(3) .stack{animation-delay:.28s}
+.trend-line{stroke-dasharray:var(--length);stroke-dashoffset:0}
+.visible .trend-line{animation:drawStroke 1.35s ease-out both;animation-delay:var(--delay)}
+.trend-point{transform-box:fill-box;transform-origin:center}
+.visible .trend-point{animation:appearDot .3s ease-out both;animation-delay:var(--delay)}
+.chart-box{position:relative;touch-action:pan-y}
+.chart-tooltip{position:absolute;z-index:2;pointer-events:none;background:#fff;border:1px solid #cbdedb;border-radius:11px;padding:11px 14px;box-shadow:0 8px 26px #203e3c20;min-width:190px;font-size:13px;max-width:220px}
+.chart-tooltip[hidden]{display:none}
+.tip-row{display:flex;justify-content:space-between;gap:18px;padding-top:5px}.tip-row strong{font-variant-numeric:tabular-nums}
+.tip-year{display:flex;align-items:center;gap:6px}
+.trend-focus{pointer-events:none}
+details.data-details{background:#fff;border:1px solid var(--edge);border-radius:15px;padding:0;overflow:hidden}
+.data-details summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:15px;padding:23px 26px}
+.data-details summary::-webkit-details-marker{display:none}
+.data-details summary:after{content:'+';font-size:27px;line-height:1;color:var(--teal)}
+.data-details[open] summary:after{content:'−'}
+.data-details .details-body{padding:0 26px 25px}
+.table-filters{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
+.table-filters button{font-size:13px;border-radius:20px;padding:7px 12px;transition:background-color .25s,color .25s}
+.month-table{width:100%;border-collapse:collapse;font-size:13px;font-variant-numeric:tabular-nums;min-width:660px}
+.month-table th,.month-table td{border-bottom:1px solid #e5eceb;padding:9px 7px;text-align:right;white-space:nowrap}
+.month-table th:first-child,.month-table td:first-child{text-align:left;position:sticky;left:0;background:#fff;z-index:1}
+.month-table thead th{background:#f3f8f7;color:#4c686a;font-weight:700}
+.month-table thead th:first-child{background:#f3f8f7;z-index:2}
+.month-table tbody tr:hover td,.month-table tbody tr:hover th{background:#eaf8f6}
+.month-table tbody tr.is-current td,.month-table tbody tr.is-current th{background:#e5f6f3;font-weight:750}
+.month-table td.latest{color:#017d88;font-weight:800}
+.month-table .positive{color:#188765}.month-table .negative{color:#c24764}
+.month-table .muted-cell{color:#99a9a9}
+.scroll-cue{font-size:12px;color:#60777a;display:none;margin-top:8px}
+@media(max-width:650px){
+ .hdr{align-items:stretch}.controls{width:100%;display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+ .controls button{min-height:44px}
+ .kpis{grid-template-columns:1fr;gap:11px}
+ .kpi{display:grid;grid-template-columns:minmax(100px,auto) 1fr;gap:1px 13px;align-items:center;padding-top:10px}
+ .kpi .val{grid-row:1/3;font-size:42px}.kpi .label{font-size:13px}.kpi .delta{margin-top:0}
+ .row{gap:10px}.legend{font-size:12px;gap:8px}
+ .chart{min-height:215px}.chart text{font-size:14px}
+ .tools{width:100%;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}
+ .tools button{padding:9px 5px;font-size:12px;line-height:1.2;min-height:42px}
+ .annotation{font-size:14px;padding:11px 12px}
+ .data-details summary{padding:17px}.data-details .details-body{padding:0 14px 17px}
+ .scroll-cue{display:block}.table-filters button{min-height:40px}
+ .chart-tooltip{min-width:155px;font-size:12px;padding:8px 10px}
+}
+@media(prefers-reduced-motion:reduce){
+ *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+ .reveal{opacity:1;transform:none}.trend-line{stroke-dashoffset:0}
+}
+</style></head><body>
 <header><div class="wrap hdr"><div><div class="eyebrow">Центр лечебной педагогики / Контрактный отдел</div><div class="sub">2026–2027 учебный год · получатели помощи</div></div>
 <div class="controls" role="group" aria-label="Выберите месяц"><button data-month="sep">Сентябрь</button><button data-month="oct">Октябрь</button></div></div></header>
 <main>
@@ -48,13 +106,86 @@ footer{max-width:1040px;margin:0 auto;padding:0 26px 30px;display:flex;gap:12px;
 <section id="dynamics"><div class="row"><div><div class="eyebrow">03 / Динамика учебного года</div><h2>Как меняется количество получателей</h2></div>
 <div class="tools" role="group" aria-label="Показатель"><button data-metric="total">Всего</button><button data-metric="primary">Первичный приём</button><button data-metric="lessons">Занятия и консультации</button></div></div>
 <div class="legend"><span><i class="dot" style="background:#a9a9a8"></i>2024–25</span><span><i class="dot" style="background:#019bab"></i>2025–26</span><span><i class="dot" style="background:#e5004f"></i>2026–27</span></div>
-<svg id="trend" class="chart" viewBox="0 0 900 325" role="img" aria-label="График количества получателей с сентября по июнь"></svg>
+<div class="chart-box" id="chart-box"><svg id="trend" class="chart" viewBox="0 0 900 325" role="img" aria-label="График количества получателей с сентября по июнь" tabindex="0"></svg><div class="chart-tooltip" id="chart-tooltip" role="status" hidden></div></div><div class="explain">Наведите курсор или коснитесь точки графика, чтобы увидеть значения за три года.</div>
 <div class="annotation" id="trend-note"></div>
 </section>
+
+<details class="data-details" id="detailed-data"><summary><div><div class="eyebrow">04 / Подробные данные</div><h2 style="margin:6px 0 0">Сводная таблица по месяцам</h2><small>Три учебных года · точные значения и изменение к прошлому году</small></div></summary>
+<div class="details-body">
+<div class="table-filters" role="group" aria-label="Показать группы столбцов"><button data-col="primary" class="active" aria-pressed="true">Первичный приём</button><button data-col="lessons" class="active" aria-pressed="true">Занятия и консультации</button><button data-col="total" class="active" aria-pressed="true">Всего</button><button data-col="delta" class="active" aria-pressed="true">Изменение, %</button></div>
+<div class="table-wrap" tabindex="0" aria-label="Прокручиваемая сводная таблица"><table class="month-table" id="monthly-table"><thead id="monthly-head"></thead><tbody id="monthly-body"></tbody></table></div>
+<div class="scroll-cue">← Прокручивайте таблицу в стороны →</div>
+<div class="explain">«—» означает, что данные за 2026–2027 учебный год ещё не поступили. Изменение в процентах сравнивает 2026–27 с 2025–26.</div>
+</div></details>
 <div class="source">Источники: статистические ряды исходного сентябрьского отчёта ЦЛП, показатели октября 2026 года. Значение «406» за октябрь рассчитано как 520 − 114 по применённой ранее методике; раздельная сверка с первичной выгрузкой не проведена. Показатели отражают число получателей, а не количество занятий или часов.</div>
 </main>
 <footer><a class="archive" href="september-archive.html">Архив: сентябрьский подробный отчёт</a><button class="show-link" id="present" type="button">На весь экран</button></footer>
 <script>
+
+const reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
+const shown=new WeakSet();
+function makeVisible(node){
+ if(!node||shown.has(node))return;
+ shown.add(node);node.classList.add('visible');
+}
+const observer=typeof IntersectionObserver==='undefined'?null:new IntersectionObserver(entries=>{
+ entries.forEach(e=>{if(e.isIntersecting){makeVisible(e.target);observer.unobserve(e.target)}});
+},{threshold:.12});
+function watch(node){if(!node)return;node.classList.add('reveal');if(reduceMotion.matches||!observer)makeVisible(node);else observer.observe(node)}
+document.querySelectorAll('#headline,#structure,#dynamics').forEach(watch);
+let countAnimation=0;
+function countTo(element,goal){
+ if(!element)return;
+ cancelAnimationFrame(element._counter || 0);
+ if(reduceMotion.matches){element.textContent=fmt(goal);return}
+ const start=performance.now(),duration=850,origin=Number(element.dataset.number||0);
+ element.dataset.number=goal;
+ function tick(time){const p=Math.min(1,(time-start)/duration),ease=1-Math.pow(1-p,3);element.textContent=fmt(Math.round(origin+(goal-origin)*ease));if(p<1)element._counter=requestAnimationFrame(tick)}
+ element._counter=requestAnimationFrame(tick);
+}
+const enabledCols={primary:true,lessons:true,total:true,delta:true};
+const metricLabels={primary:'Первичный приём',lessons:'Занятия и консультации',total:'Всего'};
+function renderMonthlyTable(){
+ const keys=['primary','lessons','total'].filter(k=>enabledCols[k]),years=['2024–25','2025–26','2026–27'];
+ let groups='<tr><th scope="col" rowspan="2">Месяц</th>';
+ let sub='<tr>';
+ for(const k of keys){groups+='<th scope="colgroup" colspan="'+(enabledCols.delta?4:3)+'">'+metricLabels[k]+'</th>';for(const yr of years)sub+='<th scope="col">'+yr+'</th>';if(enabledCols.delta)sub+='<th scope="col">Δ%</th>'}
+ by('monthly-head').innerHTML=groups+'</tr>'+sub+'</tr>';
+ const rows=[];
+ for(let i=0;i<10;i++){
+  let tr='<tr class="'+(i===(month==='sep'?0:1)?'is-current':'')+'"><th scope="row">'+['Сентябрь','Октябрь','Ноябрь','Декабрь','Январь','Февраль','Март','Апрель','Май','Июнь'][i]+'</th>';
+  for(const key of keys){const arr=SERIES[key];for(let yr=0;yr<3;yr++){const val=arr[yr][i];tr+='<td class="'+(yr===2?'latest ':'')+(val==null?'muted-cell':'')+'">'+(val==null?'—':val)+'</td>'}
+    if(enabledCols.delta){const curr=arr[2][i],previous=arr[1][i],d=curr==null?null:Math.round((curr/previous-1)*100);tr+='<td class="'+(d==null?'muted-cell':d<0?'negative':'positive')+'">'+(d==null?'—':(d>0?'+':'')+d+'%')+'</td>'}
+  }rows.push(tr+'</tr>');
+ }
+ by('monthly-body').innerHTML=rows.join('');
+}
+document.querySelectorAll('[data-col]').forEach(b=>b.addEventListener('click',()=>{
+ const k=b.dataset.col;enabledCols[k]=!enabledCols[k];
+ if(!['primary','lessons','total'].some(t=>enabledCols[t]))enabledCols[k]=true;
+ b.classList.toggle('active',enabledCols[k]);b.setAttribute('aria-pressed',String(enabledCols[k]));renderMonthlyTable();
+}));
+const tooltip=by('chart-tooltip'),chartBox=by('chart-box');
+let activeIndex=-1;
+function showChartTip(index){
+ if(index<0||index>=10)return;
+ activeIndex=index;
+ const labels=['2024–25','2025–26','2026–27'],colors=['#a9a9a8','#019bab','#e5004f'];
+ const entries=SERIES[metric].map((arr,i)=>({label:labels[i],value:arr[index],color:colors[i]})).filter(item=>item.value!=null);
+ const d=SERIES[metric][2][index]!=null?Math.round((SERIES[metric][2][index]/SERIES[metric][1][index]-1)*100):null;
+ tooltip.innerHTML='<strong>'+['Сентябрь','Октябрь','Ноябрь','Декабрь','Январь','Февраль','Март','Апрель','Май','Июнь'][index]+'</strong>'+entries.map(item=>'<div class="tip-row"><span class="tip-year"><i class="dot" style="background:'+item.color+'"></i>'+item.label+'</span><strong>'+item.value+'</strong></div>').join('')+(d==null?'':'<div class="tip-row" style="border-top:1px solid #e1eae9;margin-top:6px;padding-top:7px"><span>К прошлому году</span><strong>'+ (d>0?'+':'')+d+'%</strong></div>');
+ tooltip.hidden=false;
+ const wrap=chartBox.getBoundingClientRect(),left=45+(wrap.width-73)*(index/9);
+ tooltip.style.left=Math.max(5,Math.min(wrap.width-205,left+10))+'px';tooltip.style.top='18px';
+ const focus=by('trend-focus');if(focus){focus.setAttribute('x1',45+(900-45-28)*index/9);focus.setAttribute('x2',45+(900-45-28)*index/9);focus.style.opacity='1'}
+}
+function hideTip(){tooltip.hidden=true;activeIndex=-1;const focus=by('trend-focus');if(focus)focus.style.opacity='0'}
+by('trend').addEventListener('pointermove',e=>{if(e.pointerType==='touch')return;const r=by('trend').getBoundingClientRect();const n=Math.round(((e.clientX-r.left)/r.width*900-45)/(900-45-28)*9);showChartTip(Math.max(0,Math.min(9,n)))});
+by('trend').addEventListener('pointerleave',hideTip);
+by('trend').addEventListener('click',e=>{const r=by('trend').getBoundingClientRect();const n=Math.round(((e.clientX-r.left)/r.width*900-45)/(900-45-28)*9);showChartTip(Math.max(0,Math.min(9,n)))});
+by('trend').addEventListener('keydown',e=>{if(e.key==='Escape'){hideTip();return}if(e.key==='ArrowRight'||e.key==='ArrowLeft'){e.preventDefault();showChartTip(Math.max(0,Math.min(9,(activeIndex<0?0:activeIndex)+(e.key==='ArrowRight'?1:-1))))}});
+document.addEventListener('pointerdown',e=>{if(!chartBox.contains(e.target))hideTip()});
+
 const DATA={
  sep:[{year:2024,p:86,l:374},{year:2025,p:98,l:377},{year:2026,p:78,l:388}],
  oct:[{year:2024,p:69,l:422},{year:2025,p:70,l:386},{year:2026,p:114,l:406}]
@@ -73,10 +204,12 @@ function render(){
  const data=DATA[month],r=data[2],prev=data[1],t=r.p+r.l;
  document.querySelectorAll('[data-month]').forEach(b=>{b.classList.toggle('active',b.dataset.month===month);b.setAttribute('aria-pressed',String(b.dataset.month===month))});
  by('headline-text').innerHTML=month==='oct'?'В октябре помощь получили <em>520 человек</em> — на 14% больше, чем год назад':'В сентябре помощь получили <em>466 человек</em> — на 2% меньше, чем год назад';
- [['total',t,prev.p+prev.l],['primary',r.p,prev.p],['lessons',r.l,prev.l]].forEach(([id,n,p])=>{by('k-'+id).textContent=fmt(n);by('d-'+id).textContent=diff(n,p);by('d-'+id).classList.toggle('negative',n<p)});
+ [['total',t,prev.p+prev.l],['primary',r.p,prev.p],['lessons',r.l,prev.l]].forEach(([id,n,p])=>{countTo(by('k-'+id),n);by('d-'+id).textContent=diff(n,p);by('d-'+id).classList.toggle('negative',n<p)});
  by('compare-title').textContent='Сравнение '+(month==='sep'?'сентября':'октября')+' за три года';
  let bars='';data.forEach(v=>{const total=v.p+v.l;bars+='<div class="year-row"><div class="year">'+v.year+'</div><div class="stack-track"><div class="stack" style="width:'+(total/520*100)+'%"><div class="part-p" style="width:'+(v.p/total*100)+'%" title="Первичный приём: '+v.p+'"></div><div class="part-l" style="flex:1" title="Занятия и консультации: '+v.l+'"></div></div></div><div class="total">'+total+'</div></div>'});
  by('comparison').innerHTML=bars;
+ if(by('structure').classList.contains('visible')){by('structure').classList.remove('visible');requestAnimationFrame(()=>by('structure').classList.add('visible'))}
+ renderMonthlyTable();
 
  by('numbers-caption').textContent='Показатели в числах · '+(month==='sep'?'сентябрь':'октябрь');
  const tableRows=[['Всего получателей',v=>v.p+v.l],['Первичный приём',v=>v.p],['Занятия и консультации',v=>v.l]];
@@ -95,10 +228,15 @@ function renderChart(){
  let svg='';
  for(let i=0;i<=4;i++){let v=top*i/4,py=y(v);svg+='<line x1="'+L+'" x2="'+(W-R)+'" y1="'+py+'" y2="'+py+'" stroke="#e4eceb"/><text x="'+(L-9)+'" y="'+(py+5)+'" text-anchor="end" font-size="14" fill="#71878a">'+Math.round(v)+'</text>'}
  M.forEach((m,i)=>svg+='<text x="'+x(i)+'" y="'+(H-10)+'" text-anchor="middle" font-size="14" fill="#71878a">'+m+'</text>');
- series.forEach((arr,j)=>{const pts=arr.map((v,i)=>[x(i),y(v),v]);if(pts.length>1)svg+='<polyline points="'+pts.map(p=>p[0]+','+p[1]).join(' ')+'" fill="none" stroke="'+colors[j]+'" stroke-width="'+(j===2?4.2:2.5)+'" stroke-linejoin="round" stroke-linecap="round"/>';
- pts.forEach(p=>svg+='<circle cx="'+p[0]+'" cy="'+p[1]+'" r="'+(j===2?6:3.8)+'" fill="'+colors[j]+'" stroke="#fff" stroke-width="2"><title>'+['2024–25','2025–26','2026–27'][j]+': '+p[2]+'</title></circle>');
+ series.forEach((arr,j)=>{const pts=arr.map((v,i)=>[x(i),y(v),v]);if(pts.length>1){const coords=pts.map(p=>p[0]+','+p[1]).join(' '),length=pts.reduce((a,p,i)=>i?a+Math.hypot(p[0]-pts[i-1][0],p[1]-pts[i-1][1]):0,0);svg+='<polyline class="trend-line" style="--length:'+length+';--delay:'+(j*.18)+'s" points="'+coords+'" fill="none" stroke="'+colors[j]+'" stroke-width="'+(j===2?4.2:2.5)+'" stroke-linejoin="round" stroke-linecap="round"/>'}
+ pts.forEach((p,k)=>svg+='<circle class="trend-point" style="--delay:'+(j*.18+.22+k*.07)+'s" cx="'+p[0]+'" cy="'+p[1]+'" r="'+(j===2?6:3.8)+'" fill="'+colors[j]+'" stroke="#fff" stroke-width="2"><title>'+['2024–25','2025–26','2026–27'][j]+': '+p[2]+'</title></circle>');
  if(j===2){const p=pts[pts.length-1];svg+='<text x="'+(p[0]+12)+'" y="'+(p[1]-15)+'" font-weight="bold" font-size="17" fill="'+colors[j]+'">'+p[2]+'</text>'}
- });by('trend').innerHTML=svg;
+ });
+ svg+='<line id="trend-focus" class="trend-focus" x1="0" x2="0" y1="'+T+'" y2="'+(H-B)+'" stroke="#90bfc2" stroke-width="1.5" stroke-dasharray="5 5" opacity="0"/>';
+ by('trend').innerHTML=svg;
+ hideTip();
+ if(by('dynamics').classList.contains('visible')&&!reduceMotion.matches){by('dynamics').classList.remove('visible');requestAnimationFrame(()=>by('dynamics').classList.add('visible'))}
+
 }
 document.querySelectorAll('[data-month]').forEach(b=>b.addEventListener('click',()=>{month=b.dataset.month;history.replaceState(null,'','?month='+month);render()}));
 document.querySelectorAll('[data-metric]').forEach(b=>b.addEventListener('click',()=>{metric=b.dataset.metric;renderChart()}));
