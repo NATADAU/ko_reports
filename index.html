@@ -105,6 +105,28 @@ details.data-details{background:#fff;border:1px solid var(--edge);border-radius:
  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
  .reveal{opacity:1;transform:none}.trend-line{stroke-dashoffset:0}
 }
+
+/* iPhone/mobile overflow guard: wide tables must scroll inside their own panel. */
+html,body{width:100%;max-width:100%;overflow-x:clip}
+main{grid-template-columns:minmax(0,1fr);width:100%;min-width:0}
+main>section,main>details,main>.source{min-width:0;max-width:100%}
+.wrap,.hdr,.row,.kpis,.comparison,.chart-box,.data-details,.details-body,.number-table{min-width:0}
+.row>*{min-width:0}
+.legend span{min-width:0}
+.chart-box{max-width:100%;overflow:hidden}
+.chart{overflow:hidden}
+.table-wrap{display:block;width:100%;max-width:100%;min-width:0;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch}
+.data-details summary>div{min-width:0}
+.data-details summary h2,.data-details summary small{overflow-wrap:anywhere}
+@media(max-width:650px){
+ main{grid-template-columns:minmax(0,1fr)}
+ .kpi{grid-template-columns:minmax(82px,auto) minmax(0,1fr)}
+ .kpi .delta,.kpi .label{overflow-wrap:anywhere}
+ .data-details,.data-details .details-body,.table-wrap{min-width:0;max-width:100%}
+ .number-table{min-width:485px}
+ .chart-tooltip{max-width:min(205px,calc(100% - 12px))}
+ footer{max-width:100%}
+}
 </style></head><body>
 <header><div class="wrap hdr"><div><div class="eyebrow">Центр лечебной педагогики / Контрактный отдел</div><div class="sub">2026–2027 учебный год · ежемесячный отчёт</div></div>
 <div class="controls" role="group" aria-label="Выберите месяц"><button data-month="sep">Сентябрь</button><button data-month="oct">Октябрь</button></div></div></header>
