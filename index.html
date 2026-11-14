@@ -92,34 +92,34 @@ details.data-details{background:#fff;border:1px solid var(--edge);border-radius:
  .reveal{opacity:1;transform:none}.trend-line{stroke-dashoffset:0}
 }
 </style></head><body>
-<header><div class="wrap hdr"><div><div class="eyebrow">Центр лечебной педагогики / Контрактный отдел</div><div class="sub">2026–2027 учебный год · получатели помощи</div></div>
+<header><div class="wrap hdr"><div><div class="eyebrow">Центр лечебной педагогики / Контрактный отдел</div><div class="sub">2026–2027 учебный год · ежемесячный отчёт</div></div>
 <div class="controls" role="group" aria-label="Выберите месяц"><button data-month="sep">Сентябрь</button><button data-month="oct">Октябрь</button></div></div></header>
 <main>
-<section id="headline"><div class="eyebrow">01 / Главное за месяц</div><h1 id="headline-text"></h1>
-<div class="kpis"><div class="kpi"><div class="val" id="k-total"></div><div class="label">Всего получателей помощи</div><div class="delta" id="d-total"></div></div>
+<section id="headline"><div class="eyebrow">01 / Итоги месяца</div><h1 id="headline-text"></h1>
+<div class="kpis"><div class="kpi"><div class="val" id="k-total"></div><div class="label">Всего получили помощь</div><div class="delta" id="d-total"></div></div>
 <div class="kpi"><div class="val" id="k-primary"></div><div class="label">Первичный приём</div><div class="delta" id="d-primary"></div></div>
 <div class="kpi"><div class="val" id="k-lessons"></div><div class="label">Занятия и консультации</div><div class="delta" id="d-lessons"></div></div></div></section>
-<section id="structure"><div class="row"><div><div class="eyebrow">02 / Структура получателей</div><h2 id="compare-title"></h2></div>
+<section id="structure"><div class="row"><div><div class="eyebrow">02 / Сравнение с предыдущими годами</div><h2 id="compare-title"></h2></div>
 <div class="legend"><span><i class="dot" style="background:#e5004f"></i>Первичный приём</span><span><i class="dot" style="background:#019bab"></i>Занятия и консультации</span></div></div>
-<div class="comparison" id="comparison"></div><div class="annotation" id="structure-note"></div><div class="table-wrap"><table class="number-table"><caption id="numbers-caption">Показатели в числах</caption><thead><tr><th scope="col">Показатель</th><th scope="col">2024</th><th scope="col">2025</th><th scope="col">2026</th><th scope="col">К 2025</th></tr></thead><tbody id="numbers-body"></tbody></table></div>
+<div class="comparison" id="comparison"></div><div class="annotation" id="structure-note"></div><div class="table-wrap"><table class="number-table"><caption id="numbers-caption">Точные значения</caption><thead><tr><th scope="col">Показатель</th><th scope="col">2024</th><th scope="col">2025</th><th scope="col">2026</th><th scope="col">Изменение к 2025</th></tr></thead><tbody id="numbers-body"></tbody></table></div>
 </section>
-<section id="dynamics"><div class="row"><div><div class="eyebrow">03 / Динамика учебного года</div><h2>Как меняется количество получателей</h2></div>
+<section id="dynamics"><div class="row"><div><div class="eyebrow">03 / Помесячная динамика</div><h2>Как менялось число получателей помощи</h2></div>
 <div class="tools" role="group" aria-label="Показатель"><button data-metric="total">Всего</button><button data-metric="primary">Первичный приём</button><button data-metric="lessons">Занятия и консультации</button></div></div>
 <div class="legend"><span><i class="dot" style="background:#a9a9a8"></i>2024–25</span><span><i class="dot" style="background:#019bab"></i>2025–26</span><span><i class="dot" style="background:#e5004f"></i>2026–27</span></div>
-<div class="chart-box" id="chart-box"><svg id="trend" class="chart" viewBox="0 0 900 325" role="img" aria-label="График количества получателей с сентября по июнь" tabindex="0"></svg><div class="chart-tooltip" id="chart-tooltip" role="status" hidden></div></div><div class="explain">Наведите курсор или коснитесь точки графика, чтобы увидеть значения за три года.</div>
+<div class="chart-box" id="chart-box"><svg id="trend" class="chart" viewBox="0 0 900 325" role="img" aria-label="График количества получателей с сентября по июнь" tabindex="0"></svg><div class="chart-tooltip" id="chart-tooltip" role="status" hidden></div></div><div class="explain">Наведите курсор на график или коснитесь его, чтобы посмотреть данные за каждый год.</div>
 <div class="annotation" id="trend-note"></div>
 </section>
 
-<details class="data-details" id="detailed-data"><summary><div><div class="eyebrow">04 / Подробные данные</div><h2 style="margin:6px 0 0">Сводная таблица по месяцам</h2><small>Три учебных года · точные значения и изменение к прошлому году</small></div></summary>
+<details class="data-details" id="detailed-data"><summary><div><div class="eyebrow">04 / Сводная таблица</div><h2 style="margin:6px 0 0">Данные по месяцам и учебным годам</h2><small>Все месяцы учебного года · сравнение показателей</small></div></summary>
 <div class="details-body">
-<div class="table-filters" role="group" aria-label="Показать группы столбцов"><button data-col="primary" class="active" aria-pressed="true">Первичный приём</button><button data-col="lessons" class="active" aria-pressed="true">Занятия и консультации</button><button data-col="total" class="active" aria-pressed="true">Всего</button><button data-col="delta" class="active" aria-pressed="true">Изменение, %</button></div>
+<div class="table-filters" role="group" aria-label="Показать группы столбцов"><button data-col="primary" class="active" aria-pressed="true">Первичный приём</button><button data-col="lessons" class="active" aria-pressed="true">Занятия и консультации</button><button data-col="total" class="active" aria-pressed="true">Всего</button><button data-col="delta" class="active" aria-pressed="true">Разница, %</button></div>
 <div class="table-wrap" tabindex="0" aria-label="Прокручиваемая сводная таблица"><table class="month-table" id="monthly-table"><thead id="monthly-head"></thead><tbody id="monthly-body"></tbody></table></div>
-<div class="scroll-cue">← Прокручивайте таблицу в стороны →</div>
-<div class="explain">«—» означает, что данные за 2026–2027 учебный год ещё не поступили. Изменение в процентах сравнивает 2026–27 с 2025–26.</div>
+<div class="scroll-cue">← Чтобы увидеть все столбцы, прокрутите таблицу →</div>
+<div class="explain">Прочерк означает, что данные за месяц ещё не внесены. Разница в процентах рассчитана относительно того же месяца предыдущего учебного года.</div>
 </div></details>
-<div class="source">Источники: статистические ряды исходного сентябрьского отчёта ЦЛП, показатели октября 2026 года. Значение «406» за октябрь рассчитано как 520 − 114 по применённой ранее методике; раздельная сверка с первичной выгрузкой не проведена. Показатели отражают число получателей, а не количество занятий или часов.</div>
+<div class="source">Источник: данные ежемесячных отчётов контрактного отдела ЦЛП. Показатель «406» за октябрь 2026 года получен вычитанием числа первичных приёмов (114) из общего числа получателей помощи (520); его ещё необходимо сверить с первичной выгрузкой. В отчёте указано количество людей, а не занятий, посещений или часов.</div>
 </main>
-<footer><a class="archive" href="september-archive.html">Архив: сентябрьский подробный отчёт</a><button class="show-link" id="present" type="button">На весь экран</button></footer>
+<footer><a class="archive" href="september-archive.html">Подробный отчёт за сентябрь</a><button class="show-link" id="present" type="button">Развернуть на весь экран</button></footer>
 <script>
 const by=id=>document.getElementById(id);
 
@@ -200,26 +200,26 @@ const M=['Сен','Окт','Ноя','Дек','Янв','Фев','Мар','Апр'
 let month=new URLSearchParams(location.search).get('month')==='sep'?'sep':'oct',metric='total';
 
 function fmt(n){return n.toLocaleString('ru-RU')}
-function diff(val,base){const d=val-base,p=Math.round(d/base*100);return (d>0?'+':'')+d+' человек ('+(p>0?'+':'')+p+'%) к '+(month==='sep'?'сентябрю':'октябрю')+' 2025'}
+function diff(val,base){const d=val-base,p=Math.round(d/base*100);return (d>0?'+':'')+d+' чел. ('+(p>0?'+':'')+p+'%) к '+(month==='sep'?'сентябрю':'октябрю')+' 2025 года'}
 function render(){
  const data=DATA[month],r=data[2],prev=data[1],t=r.p+r.l;
  document.querySelectorAll('[data-month]').forEach(b=>{b.classList.toggle('active',b.dataset.month===month);b.setAttribute('aria-pressed',String(b.dataset.month===month))});
- by('headline-text').innerHTML=month==='oct'?'В октябре помощь получили <em>520 человек</em> — на 14% больше, чем год назад':'В сентябре помощь получили <em>466 человек</em> — на 2% меньше, чем год назад';
+ by('headline-text').innerHTML=month==='oct'?'В октябре помощь получили <em>520 человек</em> — на 14% больше, чем в октябре прошлого года':'В сентябре помощь получили <em>466 человек</em> — на 2% меньше, чем в сентябре прошлого года';
  [['total',t,prev.p+prev.l],['primary',r.p,prev.p],['lessons',r.l,prev.l]].forEach(([id,n,p])=>{countTo(by('k-'+id),n);by('d-'+id).textContent=diff(n,p);by('d-'+id).classList.toggle('negative',n<p)});
- by('compare-title').textContent='Сравнение '+(month==='sep'?'сентября':'октября')+' за три года';
+ by('compare-title').textContent='Число получателей помощи в '+(month==='sep'?'сентябре':'октябре')+' 2024–2026 годов';
  let bars='';data.forEach(v=>{const total=v.p+v.l;bars+='<div class="year-row"><div class="year">'+v.year+'</div><div class="stack-track"><div class="stack" style="width:'+(total/520*100)+'%"><div class="part-p" style="width:'+(v.p/total*100)+'%" title="Первичный приём: '+v.p+'"></div><div class="part-l" style="flex:1" title="Занятия и консультации: '+v.l+'"></div></div></div><div class="total">'+total+'</div></div>'});
  by('comparison').innerHTML=bars;
  if(by('structure').classList.contains('visible')){by('structure').classList.remove('visible');requestAnimationFrame(()=>by('structure').classList.add('visible'))}
  renderMonthlyTable();
 
- by('numbers-caption').textContent='Показатели в числах · '+(month==='sep'?'сентябрь':'октябрь');
+ by('numbers-caption').textContent='Точные значения · '+(month==='sep'?'сентябрь':'октябрь');
  const tableRows=[['Всего получателей',v=>v.p+v.l],['Первичный приём',v=>v.p],['Занятия и консультации',v=>v.l]];
  by('numbers-body').innerHTML=tableRows.map(([label,get])=>{
   const a=get(data[0]),b=get(data[1]),c=get(data[2]),pct=Math.round((c-b)/b*100);
   return '<tr><th scope="row">'+label+'</th><td>'+a+'</td><td>'+b+'</td><td>'+c+'</td><td class="'+(pct<0?'down':'up')+'">'+(pct>0?'+':'')+pct+'%</td></tr>';
  }).join('');
- by('structure-note').textContent=month==='oct'?'По сравнению с октябрём 2025 года получателей стало больше на 64 человека. Основная часть увеличения связана с первичным приёмом (+44 человека); на занятиях и консультациях — на 20 человек больше.':'По сравнению с сентябрём 2025 года получателей стало меньше на 9 человек: на первичном приёме −20, на занятиях и консультациях +11.';
- by('trend-note').textContent=month==='oct'?'В 2026 году после сентября число получателей увеличилось с 466 до 520. Для оценки сезонности сравнивайте линии предыдущих учебных лет; данные за остальные месяцы 2026–27 ещё не поступили.':'В сентябре 2026 года получателей было 466 — это близко к сентябрю 2024 (460) и 2025 (475). На графике показан также октябрь 2026: переключение месяца изменяет сопоставимый обзор выше.';
+ by('structure-note').textContent=month==='oct'?'В октябре помощь получили на 64 человека больше, чем год назад. Наиболее заметно выросло число первичных приёмов — с 70 до 114. Число получателей на занятиях и консультациях изменилось менее существенно: с 386 до 406.':'В сентябре помощь получили на 9 человек меньше, чем год назад. Число первичных приёмов сократилось с 98 до 78, а число получателей на занятиях и консультациях выросло с 377 до 388.';
+ by('trend-note').textContent=month==='oct'?'В октябре помощь получили 520 человек против 466 в сентябре. Такой рост наблюдается не каждый год: в октябре 2024 года число получателей увеличилось, а в 2025 году — сократилось.':'В сентябре 2026 года помощь получили 466 человек — почти столько же, сколько в сентябре 2024 года (460) и 2025 года (475). На графике можно проследить, как менялись показатели в течение предыдущих учебных лет.';
  renderChart();
 }
 function renderChart(){
