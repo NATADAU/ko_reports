@@ -121,6 +121,7 @@ details.data-details{background:#fff;border:1px solid var(--edge);border-radius:
 </main>
 <footer><a class="archive" href="september-archive.html">Архив: сентябрьский подробный отчёт</a><button class="show-link" id="present" type="button">На весь экран</button></footer>
 <script>
+const by=id=>document.getElementById(id);
 
 const reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
 const shown=new WeakSet();
@@ -197,7 +198,7 @@ const SERIES={
 };
 const M=['Сен','Окт','Ноя','Дек','Янв','Фев','Мар','Апр','Май','Июн'];
 let month=new URLSearchParams(location.search).get('month')==='sep'?'sep':'oct',metric='total';
-const by=id=>document.getElementById(id);
+
 function fmt(n){return n.toLocaleString('ru-RU')}
 function diff(val,base){const d=val-base,p=Math.round(d/base*100);return (d>0?'+':'')+d+' человек ('+(p>0?'+':'')+p+'%) к '+(month==='sep'?'сентябрю':'октябрю')+' 2025'}
 function render(){
