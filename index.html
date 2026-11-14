@@ -61,17 +61,30 @@ details.data-details{background:#fff;border:1px solid var(--edge);border-radius:
 .data-details .details-body{padding:0 26px 25px}
 .table-filters{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
 .table-filters button{font-size:13px;border-radius:20px;padding:7px 12px;transition:background-color .25s,color .25s}
-.month-table{width:100%;border-collapse:collapse;font-size:13px;font-variant-numeric:tabular-nums;min-width:660px}
-.month-table th,.month-table td{border-bottom:1px solid #e5eceb;padding:9px 7px;text-align:right;white-space:nowrap}
-.month-table th:first-child,.month-table td:first-child{text-align:left;position:sticky;left:0;background:#fff;z-index:1}
-.month-table thead th{background:#f3f8f7;color:#4c686a;font-weight:700}
-.month-table thead th:first-child{background:#f3f8f7;z-index:2}
+.month-table{width:100%;border-collapse:separate;border-spacing:0;table-layout:auto;font-size:13px;font-variant-numeric:tabular-nums;min-width:0}
+.month-table th,.month-table td{border-bottom:1px solid #e5eceb;padding:11px 12px;text-align:right;white-space:nowrap;position:static}
+.month-table thead th{background:#f1f7f6;color:#4c686a;font-weight:700;text-align:center;border-bottom:1px solid #d3e5e2}
+.month-table thead tr:first-child th:first-child{position:sticky;left:0;z-index:4;text-align:left;background:#f1f7f6}
+.month-table tbody th:first-child{position:sticky;left:0;z-index:3;text-align:left;background:#fff;font-weight:600;min-width:108px}
+.month-table thead tr:nth-child(2) th:first-child{position:static;left:auto}
+.month-table .group-start{border-left:2px solid #c4ddda}
+.month-table thead th.group-primary{color:#bd164e}
+.month-table thead th.group-lessons{color:#007e89}
+.month-table thead th.group-total{color:#277647}
 .month-table tbody tr:hover td,.month-table tbody tr:hover th{background:#eaf8f6}
 .month-table tbody tr.is-current td,.month-table tbody tr.is-current th{background:#e5f6f3;font-weight:750}
 .month-table td.latest{color:#017d88;font-weight:800}
 .month-table .positive{color:#188765}.month-table .negative{color:#c24764}
 .month-table .muted-cell{color:#99a9a9}
 .scroll-cue{font-size:12px;color:#60777a;display:none;margin-top:8px}
+.table-option{margin:0 0 16px;font-size:13px;color:#405d60}
+.table-option label{display:inline-flex;align-items:center;gap:8px;cursor:pointer}
+.table-option input{width:17px;height:17px;accent-color:#087f89}
+.table-filters button.active{background:#087f89;color:#fff;border-color:#087f89}
+.month-table td.latest{font-weight:800}
+.month-table tbody tr.is-current td,.month-table tbody tr.is-current th{background:#e5f6f3}
+.table-wrap{max-width:100%;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:thin}
+@media(max-width:650px){.month-table th,.month-table td{padding:10px 10px}.table-filters{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.table-filters button{font-size:12px;line-height:1.3;padding:8px 6px}.data-details .details-body{min-width:0}}
 @media(max-width:650px){
  .hdr{align-items:stretch}.controls{width:100%;display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
  .controls button{min-height:44px}
@@ -112,7 +125,7 @@ details.data-details{background:#fff;border:1px solid var(--edge);border-radius:
 
 <details class="data-details" id="detailed-data"><summary><div><div class="eyebrow">04 / Сводная таблица</div><h2 style="margin:6px 0 0">Данные по месяцам и учебным годам</h2><small>Все месяцы учебного года · сравнение показателей</small></div></summary>
 <div class="details-body">
-<div class="table-filters" role="group" aria-label="Показать группы столбцов"><button data-col="primary" class="active" aria-pressed="true">Первичный приём</button><button data-col="lessons" class="active" aria-pressed="true">Занятия и консультации</button><button data-col="total" class="active" aria-pressed="true">Всего</button><button data-col="delta" class="active" aria-pressed="true">Разница, %</button></div>
+<div class="table-filters" role="group" aria-label="Выберите показатель"><button type="button" data-view="all" class="active" aria-pressed="true">Все показатели</button><button type="button" data-view="primary" aria-pressed="false">Первичный приём</button><button type="button" data-view="lessons" aria-pressed="false">Занятия и консультации</button><button type="button" data-view="total" aria-pressed="false">Всего получателей</button></div><div class="table-option"><label><input type="checkbox" id="show-delta" checked> Показывать изменение к прошлому году, %</label></div>
 <div class="table-wrap" tabindex="0" aria-label="Прокручиваемая сводная таблица"><table class="month-table" id="monthly-table"><thead id="monthly-head"></thead><tbody id="monthly-body"></tbody></table></div>
 <div class="scroll-cue">← Чтобы увидеть все столбцы, прокрутите таблицу →</div>
 <div class="explain">Прочерк означает, что данные за месяц ещё не внесены. Разница в процентах рассчитана относительно того же месяца предыдущего учебного года.</div>
@@ -145,28 +158,53 @@ function countTo(element,goal){
  function tick(time){const p=Math.min(1,(time-start)/duration),ease=1-Math.pow(1-p,3);element.textContent=fmt(Math.round(origin+(goal-origin)*ease));if(p<1)element._counter=requestAnimationFrame(tick)}
  element._counter=requestAnimationFrame(tick);
 }
-const enabledCols={primary:true,lessons:true,total:true,delta:true};
-const metricLabels={primary:'Первичный приём',lessons:'Занятия и консультации',total:'Всего'};
+let tableView='all';
+let tableShowDelta=true;
+const metricLabels={primary:'Первичный приём',lessons:'Занятия и консультации',total:'Всего получателей'};
+const monthNamesFull=['Сентябрь','Октябрь','Ноябрь','Декабрь','Январь','Февраль','Март','Апрель','Май','Июнь'];
 function renderMonthlyTable(){
- const keys=['primary','lessons','total'].filter(k=>enabledCols[k]),years=['2024–25','2025–26','2026–27'];
- let groups='<tr><th scope="col" rowspan="2">Месяц</th>';
+ const keys=tableView==='all'?['primary','lessons','total']:[tableView];
+ const years=['2024–25','2025–26','2026–27'];
+ const width=keys.length*(tableShowDelta?4:3);
+ let head='<tr><th rowspan="2" scope="col">Месяц</th>';
  let sub='<tr>';
- for(const k of keys){groups+='<th scope="colgroup" colspan="'+(enabledCols.delta?4:3)+'">'+metricLabels[k]+'</th>';for(const yr of years)sub+='<th scope="col">'+yr+'</th>';if(enabledCols.delta)sub+='<th scope="col">Δ%</th>'}
- by('monthly-head').innerHTML=groups+'</tr>'+sub+'</tr>';
- const rows=[];
- for(let i=0;i<10;i++){
-  let tr='<tr class="'+(i===(month==='sep'?0:1)?'is-current':'')+'"><th scope="row">'+['Сентябрь','Октябрь','Ноябрь','Декабрь','Январь','Февраль','Март','Апрель','Май','Июнь'][i]+'</th>';
-  for(const key of keys){const arr=SERIES[key];for(let yr=0;yr<3;yr++){const val=arr[yr][i];tr+='<td class="'+(yr===2?'latest ':'')+(val==null?'muted-cell':'')+'">'+(val==null?'—':val)+'</td>'}
-    if(enabledCols.delta){const curr=arr[2][i],previous=arr[1][i],d=curr==null?null:Math.round((curr/previous-1)*100);tr+='<td class="'+(d==null?'muted-cell':d<0?'negative':'positive')+'">'+(d==null?'—':(d>0?'+':'')+d+'%')+'</td>'}
-  }rows.push(tr+'</tr>');
+ for(const k of keys){
+  head+='<th scope="colgroup" colspan="'+(tableShowDelta?4:3)+'" class="group-'+k+'">'+metricLabels[k]+'</th>';
+  years.forEach((yr,i)=>{sub+='<th scope="col" class="'+(i===0?'group-start':'')+'">'+yr+'</th>'});
+  if(tableShowDelta)sub+='<th scope="col">Δ к 2025–26</th>';
  }
- by('monthly-body').innerHTML=rows.join('');
+ by('monthly-head').innerHTML=head+'</tr>'+sub+'</tr>';
+ let body='';
+ for(let i=0;i<10;i++){
+  body+='<tr class="'+(i===(month==='sep'?0:1)?'is-current':'')+'"><th scope="row">'+monthNamesFull[i]+'</th>';
+  for(const k of keys){
+   const values=SERIES[k].map(arr=>arr[i]);
+   values.forEach((v,j)=>{body+='<td class="'+(j===0?'group-start ':'')+(j===2?'latest ':'')+(v==null?'muted-cell':'')+'">'+(v==null?'—':v)+'</td>'});
+   if(tableShowDelta){
+    const base=values[1],current=values[2],delta=current==null||base==null||base===0?null:Math.round((current/base-1)*100);
+    body+='<td class="'+(delta==null?'muted-cell':delta<0?'negative':'positive')+'">'+(delta==null?'—':(delta>0?'+':'')+delta+'%')+'</td>';
+   }
+  }
+  body+='</tr>';
+ }
+ by('monthly-body').innerHTML=body;
+ const table=by('monthly-table');
+ table.style.minWidth=tableView==='all'?(tableShowDelta?'1170px':'920px'):'100%';
+ document.querySelectorAll('[data-view]').forEach(button=>{
+  const selected=button.dataset.view===tableView;
+  button.classList.toggle('active',selected);
+  button.setAttribute('aria-pressed',String(selected));
+ });
+ const check=by('show-delta');if(check)check.checked=tableShowDelta;
 }
-document.querySelectorAll('[data-col]').forEach(b=>b.addEventListener('click',()=>{
- const k=b.dataset.col;enabledCols[k]=!enabledCols[k];
- if(!['primary','lessons','total'].some(t=>enabledCols[t]))enabledCols[k]=true;
- b.classList.toggle('active',enabledCols[k]);b.setAttribute('aria-pressed',String(enabledCols[k]));renderMonthlyTable();
+document.querySelectorAll('[data-view]').forEach(button=>button.addEventListener('click',()=>{
+ tableView=button.dataset.view;
+ renderMonthlyTable();
 }));
+by('show-delta').addEventListener('change',event=>{
+ tableShowDelta=event.target.checked;
+ renderMonthlyTable();
+});
 const tooltip=by('chart-tooltip'),chartBox=by('chart-box');
 let activeIndex=-1;
 function showChartTip(index){
