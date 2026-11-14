@@ -33,7 +33,7 @@ footer{max-width:1040px;margin:0 auto;padding:0 26px 30px;display:flex;gap:12px;
 .show-link{background:#087f89;color:#fff;border-color:#087f89}.explain{margin-top:12px;color:var(--muted);font-size:13px}
 @media(max-width:650px){main{padding:14px;gap:12px}.wrap{padding:17px 14px}section{padding:17px}.kpis{gap:9px}.label{font-size:12px}.delta{font-size:12px}.year-row{grid-template-columns:40px minmax(0,1fr) 43px;gap:7px}.stack-track{height:26px}.total{font-size:14px}footer{padding:0 14px 22px}}
 @media print{header .controls,.tools,footer{display:none}main{padding:0}section{break-inside:avoid;border:0;border-bottom:1px solid #ddd}}
-</style></head><body>
+.number-table{width:100%;border-collapse:collapse;font-size:14px;font-variant-numeric:tabular-nums;margin-top:21px}.number-table caption{text-align:left;font-weight:750;font-size:16px;margin-bottom:9px}.number-table th,.number-table td{padding:12px 9px;border-bottom:1px solid #e1eae9;text-align:right}.number-table th:first-child,.number-table td:first-child{text-align:left}.number-table thead th{color:#61787b;font-size:12px;font-weight:700}.number-table tbody td:nth-child(4){font-weight:800;color:#087f89}.number-table .up{color:#188765}.number-table .down{color:#c24764}.table-wrap{overflow-x:auto}@media(max-width:650px){.number-table{font-size:12px;min-width:485px}.number-table th,.number-table td{padding:9px 6px}}</style></head><body>
 <header><div class="wrap hdr"><div><div class="eyebrow">Центр лечебной педагогики / Контрактный отдел</div><div class="sub">2026–2027 учебный год · получатели помощи</div></div>
 <div class="controls" role="group" aria-label="Выберите месяц"><button data-month="sep">Сентябрь</button><button data-month="oct">Октябрь</button></div></div></header>
 <main>
@@ -43,7 +43,7 @@ footer{max-width:1040px;margin:0 auto;padding:0 26px 30px;display:flex;gap:12px;
 <div class="kpi"><div class="val" id="k-lessons"></div><div class="label">Занятия и консультации</div><div class="delta" id="d-lessons"></div></div></div></section>
 <section id="structure"><div class="row"><div><div class="eyebrow">02 / Структура получателей</div><h2 id="compare-title"></h2></div>
 <div class="legend"><span><i class="dot" style="background:#e5004f"></i>Первичный приём</span><span><i class="dot" style="background:#019bab"></i>Занятия и консультации</span></div></div>
-<div class="comparison" id="comparison"></div><div class="annotation" id="structure-note"></div>
+<div class="comparison" id="comparison"></div><div class="annotation" id="structure-note"></div><div class="table-wrap"><table class="number-table"><caption id="numbers-caption">Показатели в числах</caption><thead><tr><th scope="col">Показатель</th><th scope="col">2024</th><th scope="col">2025</th><th scope="col">2026</th><th scope="col">К 2025</th></tr></thead><tbody id="numbers-body"></tbody></table></div>
 </section>
 <section id="dynamics"><div class="row"><div><div class="eyebrow">03 / Динамика учебного года</div><h2>Как меняется количество получателей</h2></div>
 <div class="tools" role="group" aria-label="Показатель"><button data-metric="total">Всего</button><button data-metric="primary">Первичный приём</button><button data-metric="lessons">Занятия и консультации</button></div></div>
@@ -53,7 +53,7 @@ footer{max-width:1040px;margin:0 auto;padding:0 26px 30px;display:flex;gap:12px;
 </section>
 <div class="source">Источники: статистические ряды исходного сентябрьского отчёта ЦЛП, показатели октября 2026 года. Значение «406» за октябрь рассчитано как 520 − 114 по применённой ранее методике; раздельная сверка с первичной выгрузкой не проведена. Показатели отражают число получателей, а не количество занятий или часов.</div>
 </main>
-<footer><a class="archive" href="september-archive.html">Архив: сентябрьский подробный отчёт</a><a class="archive" href="october-archive.html">Архив: прежний октябрьский отчёт</a><button class="show-link" id="present" type="button">На весь экран</button></footer>
+<footer><a class="archive" href="september-archive.html">Архив: сентябрьский подробный отчёт</a><button class="show-link" id="present" type="button">На весь экран</button></footer>
 <script>
 const DATA={
  sep:[{year:2024,p:86,l:374},{year:2025,p:98,l:377},{year:2026,p:78,l:388}],
@@ -77,6 +77,13 @@ function render(){
  by('compare-title').textContent='Сравнение '+(month==='sep'?'сентября':'октября')+' за три года';
  let bars='';data.forEach(v=>{const total=v.p+v.l;bars+='<div class="year-row"><div class="year">'+v.year+'</div><div class="stack-track"><div class="stack" style="width:'+(total/520*100)+'%"><div class="part-p" style="width:'+(v.p/total*100)+'%" title="Первичный приём: '+v.p+'"></div><div class="part-l" style="flex:1" title="Занятия и консультации: '+v.l+'"></div></div></div><div class="total">'+total+'</div></div>'});
  by('comparison').innerHTML=bars;
+
+ by('numbers-caption').textContent='Показатели в числах · '+(month==='sep'?'сентябрь':'октябрь');
+ const tableRows=[['Всего получателей',v=>v.p+v.l],['Первичный приём',v=>v.p],['Занятия и консультации',v=>v.l]];
+ by('numbers-body').innerHTML=tableRows.map(([label,get])=>{
+  const a=get(data[0]),b=get(data[1]),c=get(data[2]),pct=Math.round((c-b)/b*100);
+  return '<tr><th scope="row">'+label+'</th><td>'+a+'</td><td>'+b+'</td><td>'+c+'</td><td class="'+(pct<0?'down':'up')+'">'+(pct>0?'+':'')+pct+'%</td></tr>';
+ }).join('');
  by('structure-note').textContent=month==='oct'?'По сравнению с октябрём 2025 года получателей стало больше на 64 человека. Основная часть увеличения связана с первичным приёмом (+44 человека); на занятиях и консультациях — на 20 человек больше.':'По сравнению с сентябрём 2025 года получателей стало меньше на 9 человек: на первичном приёме −20, на занятиях и консультациях +11.';
  by('trend-note').textContent=month==='oct'?'В 2026 году после сентября число получателей увеличилось с 466 до 520. Для оценки сезонности сравнивайте линии предыдущих учебных лет; данные за остальные месяцы 2026–27 ещё не поступили.':'В сентябре 2026 года получателей было 466 — это близко к сентябрю 2024 (460) и 2025 (475). На графике показан также октябрь 2026: переключение месяца изменяет сопоставимый обзор выше.';
  renderChart();
